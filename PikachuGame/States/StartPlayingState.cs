@@ -21,7 +21,8 @@ namespace PikachuGame.States
             Context._numberOfRemainLives = 3;
             Context._sharkPositions.Clear();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter)) Context.SetState(new PlayingState(Context));
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                Context.ChangeState(new PlayingState(Context));
         }
 
         public override void Draw(GameTime gameTime)
@@ -30,6 +31,5 @@ namespace PikachuGame.States
                 Context._graphics, Context._font, 
                 "Druk enter om te spelen");
         }
-
     }
 }
