@@ -27,6 +27,7 @@ namespace PikachuGame.States
 
             //slide background
             Context._backgroundPosition.X -= Game1.BACKGROUND_STEP;
+            Context._backgroundPosition2.X -= Game1.BACKGROUND_STEP;
 
             // Shark Update
             // Keep tracker of how much time has passed since the last shark generation
@@ -78,6 +79,9 @@ namespace PikachuGame.States
         {
             //draw the background
             Context._spriteBatch.Draw(Context._background, Context._backgroundPosition);
+
+            //draw the second background
+            Context._spriteBatch.Draw(Context._background2, Context._backgroundPosition2);
 
             //draw the player
             Context._spriteBatch.Draw(Context._player, Context._playerPosition);

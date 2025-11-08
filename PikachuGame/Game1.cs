@@ -21,11 +21,13 @@ namespace PikachuGame
         internal Texture2D _player;
         internal Texture2D _shark;
         internal Texture2D _background;
+        internal Texture2D _background2;
 
         internal int _numberOfRemainLives;
 
         internal Vector2 _playerPosition;
         internal Vector2 _backgroundPosition;
+        internal Vector2 _backgroundPosition2;
 
         internal List<Vector2> _sharkPositions;
 
@@ -68,7 +70,8 @@ namespace PikachuGame
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _background = Content.Load<Texture2D>("tenerife"); 
+            _background = Content.Load<Texture2D>("tenerife");
+            _background2 = Content.Load<Texture2D>("tenerife flipped");
             _player = Content.Load<Texture2D>("surfing-pikachu");
             _shark = Content.Load<Texture2D>("haai");
 
