@@ -1,37 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
 using PikachuGame.Extensions;
-using SharpDX.Direct2D1;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace PikachuGame.States
 {
     public class PlayingState(Game1 context) : AbstractState(context)
     {
-        public override void Draw(GameTime gameTime)
-        {
-            //draw the background
-            Context._spriteBatch.Draw(Context._background, Context._backgroundPosition);
-
-            //draw the player
-            Context._spriteBatch.Draw(Context._player, Context._playerPosition);  //bij wit legt hij geen kleur over je afbeelding
-
-            //draw all sharks
-            foreach (var sharkPosition in Context._sharkPositions)
-            {
-                Context._spriteBatch.Draw(Context._shark, sharkPosition, Color.White);
-            }
-
-            // Draw the number of lives the player has left
-            Context._spriteBatch.DrawStringInTopLeft(Context._graphics, Context._font, "Levens: " + Context._numberOfRemainLives, Color.DimGray);
-        }
-
         public override void Update(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right))   //right
@@ -48,8 +23,9 @@ namespace PikachuGame.States
 
             // Check if the user wants to Pause the game
             if (Keyboard.GetState().IsKeyDown(Keys.P))
-                //Context._gameState = GameStates.Paused;
+                Context.ChangeState(new PauseState(Context, this));
 
+            //slide background
             Context._backgroundPosition.X -= Game1.BACKGROUND_STEP;
 
             // Shark Update
@@ -59,16 +35,21 @@ namespace PikachuGame.States
             {
                 //resetting the eleapsedTime
                 Context._elapsedTimeSinceLastSharkInMs = 0;
+                //adding a new shark (which means adding a new position)
                 Context._sharkPositions.Add(new Vector2(Context._graphics.PreferredBackBufferWidth,
                     Random.Shared.Next(Context._graphics.PreferredBackBufferHeight)));
             }
 
             // Check if we have collided with a shark
-            var pikachuBounds = new Rectangle((int)Context._playerPosition.X, (int)Context._playerPosition.Y, Context._player.Width, Context._player.Height);
-            for (var i = Context._sharkPositions.Count - 1; i >= 0; i--)//telt van achter naar voor: waarom? anders ga je eentje skippen
-                                                                //zo kan je alles in één lus uitvoeren, anders niet, nu laat je rest van de lijst aansluiten op het begin ervan
+            var pikachuBounds = new Rectangle((int)Context._playerPosition.X, 
+                (int)Context._playerPosition.Y, Context._player.Width, Context._player.Height);
+
+            for (var i = Context._sharkPositions.Count - 1; i >= 0; i--)
+                //telt van achter naar voor: waarom? anders ga je eentje skippen
+                //zo kan je alles in één lus uitvoeren, anders niet, nu laat je rest van de lijst aansluiten op het begin ervan
             {
-                Context._sharkPositions[i] = Context._sharkPositions[i] with { X = Context._sharkPositions[i].X - Game1.SHARK_STEP };//alleen X wordt geüpdated
+                Context._sharkPositions[i] = Context._sharkPositions[i] with { X = Context._sharkPositions[i].X - Game1.SHARK_STEP };
+                //alleen X wordt geüpdated
 
                 // Remove useless sharks (those who have passed the left side)
                 if (Context._sharkPositions[i].X < -Context._shark.Width)
@@ -84,15 +65,33 @@ namespace PikachuGame.States
 
                     // If the player has no lives left change state to gameover
                     if (Context._numberOfRemainLives == 0)
-                    {
-                        
-                        continue; // State changed, we don't need to do the rest of the loop
-                    }
+                        Context.ChangeState(new GameOverState(Context));
+
                     // Still have lives left, so just remove the shark
                     else
                         Context._sharkPositions.RemoveAt(i);
                 }
             }
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            //draw the background
+            Context._spriteBatch.Draw(Context._background, Context._backgroundPosition);
+
+            //draw the player
+            Context._spriteBatch.Draw(Context._player, Context._playerPosition);
+
+            //draw all sharks
+            foreach (var sharkPosition in Context._sharkPositions)
+                Context._spriteBatch.Draw(Context._shark, sharkPosition);
+
+            // Draw the number of lives the player has left
+            Context._spriteBatch.DrawStringInTopLeft(
+                Context._graphics, 
+                Context._font,
+                "Levens: " + Context._numberOfRemainLives,
+                Color.DimGray);
         }
     }
 }
