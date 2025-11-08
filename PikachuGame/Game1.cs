@@ -10,14 +10,6 @@ namespace PikachuGame
 {
     public class Game1 : Game
     {
-        /*private enum GameStates wordt niet meer gebruikt nu we gamemachine gebruiken
-        {
-            StartScreen, 
-            Playing, 
-            Paused, 
-            GameOver
-        }*/
-
         internal const int PLAYER_STEP = 8;
         internal const int BACKGROUND_STEP = 2;
         internal const int SHARK_STEP = 4;
@@ -30,11 +22,6 @@ namespace PikachuGame
         internal Texture2D _shark;
         internal Texture2D _background;
 
-        private bool _isRunning = false;
-        /*private bool _isStartScreen = true;
-        private bool _isPaused = false;
-        private bool _isGameOver = false;*/
-
         internal int _numberOfRemainLives;
 
         internal Vector2 _playerPosition;
@@ -42,9 +29,12 @@ namespace PikachuGame
 
         internal List<Vector2> _sharkPositions;
 
-        internal double _elapsedTimeSinceLastSharkInMs;//je zou hier ook mod operator kunnen gebruiken, of timespan, whatever
+        internal double _elapsedTimeSinceLastSharkInMs;
+        //je zou hier ook mod operator kunnen gebruiken, of timespan, whatever
 
         private AbstractState _currentState;
+
+        #region Constructor
 
         public Game1()
         {
@@ -53,6 +43,8 @@ namespace PikachuGame
             IsMouseVisible = true;
         }
 
+        #endregion
+
         internal void ChangeState(AbstractState newState)
         {
             _currentState = newState;
@@ -60,19 +52,14 @@ namespace PikachuGame
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            // bepaal de grootte van het window, anders op default 720x540
 
             _graphics.PreferredBackBufferWidth = 1280;
             _graphics.PreferredBackBufferHeight = 720;
-            _graphics.ApplyChanges();
+            _graphics.ApplyChanges();//niet vergeten toe te passen
 
-            //reset alle variabelen
-            ChangeState(new StartPlayingState(this));
-            _elapsedTimeSinceLastSharkInMs = 0;
-            _backgroundPosition = new Vector2(0, -1400);
-            _playerPosition = new Vector2(0, 100);
-            _numberOfRemainLives = 3;
-            _sharkPositions = new List<Vector2>();
+            //deze state is de enige die Game1 hoeft te kennen: het begin van alles
+            ChangeState(new StartScreenState(this));
            
             base.Initialize();
         }
@@ -95,6 +82,8 @@ namespace PikachuGame
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            //Game1 weet alleen maar af van 1 state: de currentstate, het is die state waarop Game1 kan updaten
+            //van al de rest weet hij niets af, hij geeft er ook niks om of die state null is of niet..
             _currentState?.Update(gameTime);
 
             base.Update(gameTime);
@@ -106,7 +95,8 @@ namespace PikachuGame
 
             _spriteBatch.Begin();
 
-            
+            _currentState?.Draw(gameTime);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);

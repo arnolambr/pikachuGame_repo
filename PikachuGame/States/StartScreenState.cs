@@ -11,7 +11,7 @@ using PikachuGame.Extensions;
 
 namespace PikachuGame.States
 {
-    public class StartPlayingState(Game1 context): AbstractState(context)
+    public class StartScreenState(Game1 context): AbstractState(context)
     {
         public override void Update(GameTime gameTime)
         {
