@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using PikachuGame.Extensions;
+using PikachuGame.Input;
 
 namespace PikachuGame.States
 {
@@ -8,7 +9,7 @@ namespace PikachuGame.States
     {
         public override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+            if (InputFacade.WasKeyJustPressed(Keys.Enter))
                 Context.ChangeState(new StartScreenState(Context));
         }
         

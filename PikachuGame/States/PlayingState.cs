@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using PikachuGame.Extensions;
+using PikachuGame.Input;
 
 namespace PikachuGame.States
 {
@@ -9,20 +10,20 @@ namespace PikachuGame.States
     {
         public override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right))   //right
+            if (InputFacade.IsKeyDown([Keys.D, Keys.Right]))   //right
                 Context._playerPosition.X += Game1.PLAYER_STEP;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Q) || Keyboard.GetState().IsKeyDown(Keys.Left))   //left
+            if (InputFacade.IsKeyDown([Keys.Q, Keys.Left]))   //left
                 Context._playerPosition.X -= Game1.PLAYER_STEP;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Z) || Keyboard.GetState().IsKeyDown(Keys.Up))   //up
+            if (InputFacade.IsKeyDown([Keys.Z, Keys.Up]))   //up
                 Context._playerPosition.Y -= Game1.PLAYER_STEP;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down))   //down
+            if (InputFacade.IsKeyDown([Keys.S, Keys.Down]))   //down
                 Context._playerPosition.Y += Game1.PLAYER_STEP;
 
             // Check if the user wants to Pause the game
-            if (Keyboard.GetState().IsKeyDown(Keys.P))
+            if (InputFacade.WasKeyJustPressed(Keys.Enter))
                 Context.ChangeState(new PauseState(Context, this));
 
             //slide background

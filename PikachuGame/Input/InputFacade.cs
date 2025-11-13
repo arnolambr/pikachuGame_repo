@@ -23,6 +23,18 @@ namespace PikachuGame.Input
             return CurrentState.IsKeyDown(key);
         }
 
+        public static bool IsKeyDown(Keys[] keys)
+        {
+            return keys.Any(x=>IsKeyDown(x));
+            
+            /* Is hetzelfde als:
+             * foreach(var key in keys)
+            {
+                if(IsKeyDown(key)) return true;
+            }
+            return false;*/
+        }
+
         public static bool WasKeyJustPressed(Keys key)
         {
             return PreviousState.IsKeyUp(key) && CurrentState.IsKeyDown(key);

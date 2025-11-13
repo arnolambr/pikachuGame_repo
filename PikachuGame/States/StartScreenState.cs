@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using PikachuGame.Extensions;
+using PikachuGame.Input;
 
 namespace PikachuGame.States
 {
@@ -19,7 +20,7 @@ namespace PikachuGame.States
                 _isInitialized = true;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter))  
+            if (InputFacade.WasKeyJustPressed(Keys.Enter))  
                 Context.ChangeState(new PlayingState(Context));
             //als je de key te lang ingedrukt houdt, treed er misschien een fout op, doordat het volgende
             //scherm opstart, en die ook iets doet met dezelfde enter toets. Je kan dit vermijden door IsKeyUp
