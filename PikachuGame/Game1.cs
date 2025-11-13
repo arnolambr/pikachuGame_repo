@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PikachuGame.Extensions;
+using PikachuGame.Input;
 using PikachuGame.States;
 
 namespace PikachuGame
@@ -80,6 +81,8 @@ namespace PikachuGame
 
         protected override void Update(GameTime gameTime)
         {
+            InputFacade.Update();
+            
             // No matter which state, we always check if the user wants to exit the game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || 
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
