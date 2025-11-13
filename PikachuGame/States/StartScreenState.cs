@@ -31,6 +31,7 @@ namespace PikachuGame.States
         {
             Context._elapsedTimeSinceLastSharkInMs = 0;
             Context._playerPosition = new Vector2(0, 300);
+            Context._player = new Object.Sprite(Context._playerTexture, new System.Numerics.Vector2(0, 100));
             Context._backgroundPosition = new Vector2(0, 0);
             Context._backgroundPosition2 = new Vector2(4000, 0);
             Context._numberOfRemainLives = 3;

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using PikachuGame.Extensions;
 using PikachuGame.Input;
+using PikachuGame.Object;
 using PikachuGame.States;
 
 namespace PikachuGame
@@ -19,14 +20,17 @@ namespace PikachuGame
         internal SpriteBatch _spriteBatch;
 
         internal SpriteFont _font;
-        internal Texture2D _player;
+        //internal Texture2D _player;
         internal Texture2D _shark;
         internal Texture2D _background;
         internal Texture2D _background2;
 
         internal int _numberOfRemainLives;
 
-        internal Vector2 _playerPosition;
+        internal Sprite _player;
+        internal Sprite _playerTexture;
+
+        //internal Vector2 _playerPosition;
         internal Vector2 _backgroundPosition;
         internal Vector2 _backgroundPosition2;
 
@@ -73,7 +77,7 @@ namespace PikachuGame
 
             _background = Content.Load<Texture2D>("tenerife");
             _background2 = Content.Load<Texture2D>("tenerife flipped");
-            _player = Content.Load<Texture2D>("surfing-pikachu");
+            _playerTexture = Content.Load<Texture2D>("surfing-pikachu");
             _shark = Content.Load<Texture2D>("haai");
 
             _font = Content.Load<SpriteFont>("game-font");

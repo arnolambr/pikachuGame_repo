@@ -8,9 +8,11 @@ namespace PikachuGame.States
 {
     public class PlayingState(Game1 context) : AbstractState(context)
     {
+        private InputService InputService { get; set; } = new InputService();
+        
         public override void Update(GameTime gameTime)
         {
-            if (InputFacade.IsKeyDown([Keys.D, Keys.Right]))   //right
+            if (InputService.GoRight())   //dit is zo duidelijk dat je al geen commentaar meer nodig hebt, self-explanatory
                 Context._playerPosition.X += Game1.PLAYER_STEP;
 
             if (InputFacade.IsKeyDown([Keys.Q, Keys.Left]))   //left
